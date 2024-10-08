@@ -1,5 +1,7 @@
-import PageObject.HomePageScooter;
+import LocatorsAndMethods.HomePageScooter;
+import LocatorsAndMethods.NoSuchOrderPage;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,14 +11,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-//Проверить: если нажать на логотип «Самоката», попадёшь на главную страницу «Самоката».
+//Проверить: если ввести неправильный номер заказа, попадёшь на страницу статуса заказа. На ней должно быть написано, что такого заказа нет.
 @RunWith(Parameterized.class)
 
-public class checkScooterLogo{
+public class CheckIncorrectNumber {
     private WebDriver driver;
     public final WebDriver browser;
 
-    public checkScooterLogo(WebDriver browser) {
+    public CheckIncorrectNumber(WebDriver browser) {
         this.browser = browser;
     }
 
@@ -41,15 +43,19 @@ public class checkScooterLogo{
         // Нажатие на кнопку кук
         objPageScooter.pressCookieButton();
     }
+
     @Test
-    public void isScooterImageLogoReturnsToMainPage(){
+    public void tryingToFindIncorrectOrder(){
         HomePageScooter objHomePageScooter = new HomePageScooter(driver);
-        // Нажатие на кнопку "Заказать" в шапке страницы
-        objHomePageScooter.pressOrderButton("Верхняя");
-        // Нажатие на "Самокат" в логотипе
-        objHomePageScooter.pressScooterImageInLogo();
-        // Проверка на наличие картинки на главной странице
-        objHomePageScooter.checkBlueprintScooterImage();
+        NoSuchOrderPage objNoSuchOrderPage = new NoSuchOrderPage(driver);
+        // Нажатие на кнопку "Статус заказа"
+        objHomePageScooter.pressButtonOrderStatus();
+        // Заполнение появившегося поле неверными данными
+        objHomePageScooter.fillInputOrderNumber("1");
+        // Нажатие на кнопку "Go"
+        objHomePageScooter.pressButtonGo();
+        // Проверка на наличие разобранного самоката
+        Assert.assertTrue(objNoSuchOrderPage.checkNotFoundImage());
     }
     @After
     public void tearDown() {

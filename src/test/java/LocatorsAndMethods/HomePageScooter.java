@@ -6,8 +6,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.junit.Assert;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElementLocated;
 
@@ -92,13 +94,20 @@ public class HomePageScooter {
     // Нажатие на картинку "Яндекс" в логотипе
     public void pressYandexImageInLogo() {
         driver.findElement(yandexImageInLogo).click();
+        driver.manage().timeouts().pageLoadTimeout(waitForLink);
+        driver.manage().timeouts().implicitlyWait(waitForLink);
+        driver.manage().timeouts().scriptTimeout(waitForLink);
     }
     // Проверка ссылки при нажатии на "Яндекс"
     public void checkCorrectYandexUrl() {
         Object[] windowHandles=driver.getWindowHandles().toArray();
         driver.switchTo().window((String) windowHandles[1]);
-        new WebDriverWait(driver, waitForLink)
-                .until(ExpectedConditions.urlToBe("https://ya.ru"));
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Assert.assertEquals("https://ya.ru", driver.getCurrentUrl());
     }
     // Нажатие на картинку "Самокат" в логотипе
     public void pressScooterImageInLogo() {

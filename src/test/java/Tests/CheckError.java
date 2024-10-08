@@ -1,6 +1,7 @@
-import PageObject.HomePageScooter;
-import PageObject.UserInfoPage;
+import LocatorsAndMethods.HomePageScooter;
+import LocatorsAndMethods.UserInfoPage;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +14,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 //Проверить ошибки для всех полей формы заказа.
 @RunWith(Parameterized.class)
 
-public class checkError {
+public class CheckError {
     private WebDriver driver;
     private final String name;
     private final String surname;
@@ -21,7 +22,7 @@ public class checkError {
     private final String phone;
     public final WebDriver browser;
 
-    public checkError(String name, String surname, String address, String phone, WebDriver browser) {
+    public CheckError(String name, String surname, String address, String phone, WebDriver browser) {
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -61,9 +62,15 @@ public class checkError {
 
     @Test
     public void allErrorText(){
+        final String expectedName = "Введите корректное имя";
+        final String expectedSurname = "Введите корректную фамилию";
+        final String expectedAddress = "Введите корректный адрес";
+        final String expectedPhone = "Введите корректный номер";
+        final String[] expectedText = {expectedName, expectedSurname, expectedAddress, expectedPhone};
         UserInfoPage objUserInfoPage = new UserInfoPage(driver);
+        String[] actualText = objUserInfoPage.activateAndGetAllErrorText(name, surname, address, phone);
         // Передача некорректных данных в поля и проверка на наличие ошибок
-        objUserInfoPage.findAllErrorText(name, surname, address, phone);
+        Assert.assertArrayEquals(expectedText,actualText);
     }
     @After
     public void tearDown() {

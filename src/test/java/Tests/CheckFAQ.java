@@ -1,5 +1,6 @@
-import PageObject.HomePageScooter;
+import LocatorsAndMethods.HomePageScooter;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,13 +13,13 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 //Выпадающий список в разделе «Вопросы о важном». Тебе нужно проверить: когда нажимаешь на стрелочку, открывается соответствующий текст.
 @RunWith(Parameterized.class)
 
-public class checkFAQ {
+public class CheckFAQ {
     private WebDriver driver;
     private final String actualAnswer;
     private final String numberOfAnswerAndQuestion;
     public final WebDriver browser;
 
-    public checkFAQ(String actualAnswer, String numberOfAnswerAndQuestion, WebDriver browser) {
+    public CheckFAQ(String actualAnswer, String numberOfAnswerAndQuestion, WebDriver browser) {
         this.actualAnswer = actualAnswer;
         this.numberOfAnswerAndQuestion = numberOfAnswerAndQuestion;
         this.browser = browser;
@@ -64,7 +65,7 @@ public class checkFAQ {
     public void checkFAQList(){
         HomePageScooter objHomePageScooter = new HomePageScooter(driver);
         // Сравнение текста ответов
-        objHomePageScooter.checkAnswers(actualAnswer, numberOfAnswerAndQuestion);
+        Assert.assertEquals(actualAnswer, objHomePageScooter.checkAnswers(numberOfAnswerAndQuestion));
 
     }
     @After

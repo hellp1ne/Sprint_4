@@ -1,5 +1,6 @@
-import PageObject.HomePageScooter;
+import LocatorsAndMethods.HomePageScooter;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,14 +10,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-//Проверить: если нажать на логотип Яндекса, в новом окне откроется главная страница Яндекса.
+//Проверить: если нажать на логотип «Самоката», попадёшь на главную страницу «Самоката».
 @RunWith(Parameterized.class)
 
-public class checkYandexLogo {
+public class CheckScooterLogo {
     private WebDriver driver;
     public final WebDriver browser;
 
-    public checkYandexLogo(WebDriver browser) {
+    public CheckScooterLogo(WebDriver browser) {
         this.browser = browser;
     }
 
@@ -41,14 +42,15 @@ public class checkYandexLogo {
         // Нажатие на кнопку кук
         objPageScooter.pressCookieButton();
     }
-
     @Test
-    public void isYandexImageLogoOpensNewTabMainPageYandex(){
+    public void isScooterImageLogoReturnsToMainPage(){
         HomePageScooter objHomePageScooter = new HomePageScooter(driver);
-        // Нажатие на логотип "Яндекс"
-        objHomePageScooter.pressYandexImageInLogo();
-        // Проверка url на корректность
-        objHomePageScooter.checkCorrectYandexUrl();
+        // Нажатие на кнопку "Заказать" в шапке страницы
+        objHomePageScooter.pressOrderButton("Верхняя");
+        // Нажатие на "Самокат" в логотипе
+        objHomePageScooter.pressScooterImageInLogo();
+        // Проверка на наличие картинки на главной странице
+        Assert.assertTrue(objHomePageScooter.getBlueprintScooterImage());
     }
     @After
     public void tearDown() {

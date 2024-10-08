@@ -1,6 +1,6 @@
 import PageObject.HomePageScooter;
-import PageObject.NoSuchOrderPage;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,14 +10,15 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-//Проверить: если ввести неправильный номер заказа, попадёшь на страницу статуса заказа. На ней должно быть написано, что такого заказа нет.
+
+//Проверить: если нажать на логотип Яндекса, в новом окне откроется главная страница Яндекса.
 @RunWith(Parameterized.class)
 
-public class checkIncorrectNumber {
+public class CheckYandexLogo {
     private WebDriver driver;
     public final WebDriver browser;
 
-    public checkIncorrectNumber(WebDriver browser) {
+    public CheckYandexLogo(WebDriver browser) {
         this.browser = browser;
     }
 
@@ -44,17 +45,12 @@ public class checkIncorrectNumber {
     }
 
     @Test
-    public void tryingToFindIncorrectOrder(){
+    public void isYandexImageLogoOpensNewTabMainPageYandex(){
         HomePageScooter objHomePageScooter = new HomePageScooter(driver);
-        NoSuchOrderPage objNoSuchOrderPage = new NoSuchOrderPage(driver);
-        // Нажатие на кнопку "Статус заказа"
-        objHomePageScooter.pressButtonOrderStatus();
-        // Заполнение появившегося поле неверными данными
-        objHomePageScooter.fillInputOrderNumber("1");
-        // Нажатие на кнопку "Go"
-        objHomePageScooter.pressButtonGo();
-        // Проверка на наличие разобранного самоката
-        objNoSuchOrderPage.checkNotFoundImage();
+        // Нажатие на логотип "Яндекс"
+        objHomePageScooter.pressYandexImageInLogo();
+        // Проверка url на корректность
+        objHomePageScooter.checkCorrectYandexUrl();
     }
     @After
     public void tearDown() {

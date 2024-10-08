@@ -1,7 +1,8 @@
-import PageObject.AboutRentPage;
-import PageObject.HomePageScooter;
-import PageObject.UserInfoPage;
+import LocatorsAndMethods.AboutRentPage;
+import LocatorsAndMethods.HomePageScooter;
+import LocatorsAndMethods.UserInfoPage;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +15,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 //Заказ самоката. Нужно проверить весь флоу позитивного сценария с двумя наборами данных. Проверить точки входа в сценарий, их две: кнопка «Заказать» вверху страницы и внизу.
 @RunWith(Parameterized.class)
 
-public class checkIsEnabledToOrder {
+public class CheckIsEnabledToOrder {
     private WebDriver driver;
     private final String choiceOrderButton;
     private final String name;
@@ -24,7 +25,7 @@ public class checkIsEnabledToOrder {
     private final String date;
     public final WebDriver browser;
 
-    public checkIsEnabledToOrder(String choiceOrderButton, String name, String surname, String address, String phone, String date, WebDriver browser) {
+    public CheckIsEnabledToOrder(String choiceOrderButton, String name, String surname, String address, String phone, String date, WebDriver browser) {
         this.choiceOrderButton = choiceOrderButton;
         this.name = name;
         this.surname = surname;
@@ -77,7 +78,7 @@ public class checkIsEnabledToOrder {
         // Нажатие на кнопку "Да" на поп-апе
         objAboutRentPage.clickYesButton();
         // Проверка открытия поп-апа
-        objAboutRentPage.checkSuccess();
+        Assert.assertTrue(objAboutRentPage.checkSuccess());
     }
     @After
     public void tearDown() {
