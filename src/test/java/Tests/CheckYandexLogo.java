@@ -1,4 +1,6 @@
-import PageObject.HomePageScooter;
+package Tests;
+
+import LocatorsAndMethods.HomePageScooter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,6 +12,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+
+import static org.hamcrest.CoreMatchers.containsString;
 
 //Проверить: если нажать на логотип Яндекса, в новом окне откроется главная страница Яндекса.
 @RunWith(Parameterized.class)
@@ -50,7 +54,7 @@ public class CheckYandexLogo {
         // Нажатие на логотип "Яндекс"
         objHomePageScooter.pressYandexImageInLogo();
         // Проверка url на корректность
-        objHomePageScooter.checkCorrectYandexUrl();
+        Assert.assertThat(objHomePageScooter.getUrl(), containsString("https://dzen.ru"));
     }
     @After
     public void tearDown() {

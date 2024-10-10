@@ -1,3 +1,5 @@
+package Tests;
+
 import LocatorsAndMethods.AboutRentPage;
 import LocatorsAndMethods.HomePageScooter;
 import LocatorsAndMethods.UserInfoPage;

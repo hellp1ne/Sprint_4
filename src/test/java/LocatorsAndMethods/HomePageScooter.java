@@ -1,4 +1,4 @@
-package PageObject;
+package LocatorsAndMethods;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -11,7 +11,9 @@ import org.junit.Assert;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElementLocated;
+import static org.openqa.selenium.support.ui.ExpectedConditions.urlContains;
 
 public class HomePageScooter {
     private WebDriver driver;
@@ -50,10 +52,11 @@ public class HomePageScooter {
         driver.findElement(buttonCookie).click();
     }
     // Пролистать до блока FAQ, кликнуть по вопросу и проверить текст
-    public void checkAnswers(String actualAnswer, String numberOfAnswerAndQuestion) {
+    public String checkAnswers(String numberOfAnswerAndQuestion) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(By.id(someQuestion + numberOfAnswerAndQuestion)));
         driver.findElement(By.id(someQuestion + numberOfAnswerAndQuestion)).click();
-        textToBePresentInElementLocated(By.id(someAnswer + numberOfAnswerAndQuestion), actualAnswer);
+        //textToBePresentInElementLocated(By.id(someAnswer + numberOfAnswerAndQuestion), actualAnswer);
+        return driver.findElement(By.id(someAnswer + numberOfAnswerAndQuestion)).getText();
     }
     // Нажать кнопку "Заказать"
     public void pressOrderButton(String choiceOrderButton) {
@@ -94,12 +97,10 @@ public class HomePageScooter {
     // Нажатие на картинку "Яндекс" в логотипе
     public void pressYandexImageInLogo() {
         driver.findElement(yandexImageInLogo).click();
-        driver.manage().timeouts().pageLoadTimeout(waitForLink);
-        driver.manage().timeouts().implicitlyWait(waitForLink);
-        driver.manage().timeouts().scriptTimeout(waitForLink);
+
     }
-    // Проверка ссылки при нажатии на "Яндекс"
-    public void checkCorrectYandexUrl() {
+    // Переход между окнами, ожидание загрузки ссылки, получение ссылки
+    public String getUrl() {
         Object[] windowHandles=driver.getWindowHandles().toArray();
         driver.switchTo().window((String) windowHandles[1]);
         try {
@@ -107,14 +108,14 @@ public class HomePageScooter {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        Assert.assertEquals("https://ya.ru", driver.getCurrentUrl());
+        return driver.getCurrentUrl();
     }
     // Нажатие на картинку "Самокат" в логотипе
     public void pressScooterImageInLogo() {
         driver.findElement(scooterImageInLogo).click();
     }
-    // Проверка изображения чертежа самоката
-    public void checkBlueprintScooterImage() {
-        driver.findElement(blueprintScooterImage).isDisplayed();
+    // Проверка на отображение картинки
+    public boolean getBlueprintScooterImage() {
+        return driver.findElement(blueprintScooterImage).isDisplayed();
     }
 }

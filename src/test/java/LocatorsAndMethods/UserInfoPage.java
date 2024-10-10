@@ -1,5 +1,6 @@
-package PageObject;
+package LocatorsAndMethods;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class UserInfoPage {
     private WebDriver driver;
@@ -58,28 +60,26 @@ public class UserInfoPage {
         driver.findElement(phoneInput).sendKeys(phone);
     }
     // Проверка на наличии текста ошибки
-    public void findAllErrorText(String name, String surname, String address, String phone) {
-        WebElement elementsNameTextError = driver.findElement(textErrorIncorrectName);
-        WebElement elementsSurnameTextError = driver.findElement(textErrorIncorrectSurname);
-        WebElement elementsAddressTextError = driver.findElement(textErrorIncorrectAddress);
-        WebElement elementsPhoneTextError = driver.findElement(textErrorIncorrectNumber);
+    public String[] activateAndGetAllErrorText(String name, String surname, String address, String phone) {
+        WebElement elementNameTextError = driver.findElement(textErrorIncorrectName);
+        WebElement elementSurnameTextError = driver.findElement(textErrorIncorrectSurname);
+        WebElement elementAddressTextError = driver.findElement(textErrorIncorrectAddress);
+        WebElement elementPhoneTextError = driver.findElement(textErrorIncorrectNumber);
         driver.findElement(nameInput).click();
         driver.findElement(nameInput).sendKeys(name);
         driver.findElement(surnameInput).click();
-        new WebDriverWait(driver, waitForError)
-                .until(ExpectedConditions.visibilityOf(elementsNameTextError));
         driver.findElement(surnameInput).sendKeys(surname);
         driver.findElement(addressInput).click();
-        new WebDriverWait(driver, waitForError)
-                .until(ExpectedConditions.visibilityOf(elementsSurnameTextError));
         driver.findElement(addressInput).sendKeys(address);
         driver.findElement(phoneInput).click();
-        new WebDriverWait(driver, waitForError)
-                .until(ExpectedConditions.visibilityOf(elementsAddressTextError));
         driver.findElement(phoneInput).sendKeys(phone);
         driver.findElement(buttonNext).click();
-        new WebDriverWait(driver, waitForError)
-                .until(ExpectedConditions.visibilityOf(elementsPhoneTextError));
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return new String[]{elementNameTextError.getText(),elementSurnameTextError.getText(),elementAddressTextError.getText(),elementPhoneTextError.getText()};
     }
     //Нажать на кнопку "Далее"
     public void clickNextButton() {

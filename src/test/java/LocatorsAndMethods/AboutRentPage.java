@@ -1,4 +1,4 @@
-package PageObject;
+package LocatorsAndMethods;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AboutRentPage {
     private WebDriver driver;
+    private boolean isButtonDisplayed = false;
     // Поле для ввода даты
     private By dateInput = By.xpath(".//input[@placeholder='* Когда привезти самокат']");
     // Сегодняшняя дата в календаре
@@ -51,7 +52,13 @@ public class AboutRentPage {
         driver.findElement(buttonPopUpYes).click();
     }
     // Проверить, что заказ успешно оформлен
-    public void checkSuccess() {
-        driver.findElement(buttonCheckStatus).isDisplayed();
+    public boolean checkSuccess() {
+        try {
+            if (driver.findElement(buttonCheckStatus).isDisplayed()) {
+                isButtonDisplayed = true;
+            }
+        } finally {
+            return isButtonDisplayed;
+        }
     }
 }

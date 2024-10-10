@@ -1,4 +1,4 @@
-package PageObject;
+package LocatorsAndMethods;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +12,7 @@ public class NoSuchOrderPage {
         this.driver = driver;
     }
     // Проверка отображения изображения
-    public void checkNotFoundImage() {
-        driver.findElement(imageNotFound).isDisplayed();
+    public boolean checkNotFoundImage() {
+        return driver.findElement(imageNotFound).isDisplayed();
     }
 }

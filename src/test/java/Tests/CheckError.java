@@ -1,3 +1,5 @@
+package Tests;
+
 import LocatorsAndMethods.HomePageScooter;
 import LocatorsAndMethods.UserInfoPage;
 import org.junit.After;
