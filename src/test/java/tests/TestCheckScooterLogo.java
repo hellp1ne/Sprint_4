@@ -1,6 +1,6 @@
-package Tests;
+package tests;
 
-import LocatorsAndMethods.HomePageScooter;
+import methods.PageHomeScooter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,16 +13,16 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
-import static org.hamcrest.CoreMatchers.containsString;
+import static methods.PageHomeScooter.urlScooter;
 
-//Проверить: если нажать на логотип Яндекса, в новом окне откроется главная страница Яндекса.
+//Проверить: если нажать на логотип «Самоката», попадёшь на главную страницу «Самоката».
 @RunWith(Parameterized.class)
 
-public class CheckYandexLogo {
+public class TestCheckScooterLogo {
     private WebDriver driver;
     public final WebDriver browser;
 
-    public CheckYandexLogo(WebDriver browser) {
+    public TestCheckScooterLogo(WebDriver browser) {
         this.browser = browser;
     }
 
@@ -30,9 +30,9 @@ public class CheckYandexLogo {
     @Parameterized.Parameters
     public static Object[][] getBrowsers() {
         ChromeOptions optionsChrome = new ChromeOptions();
-        optionsChrome.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
+        optionsChrome.addArguments("--no-sandbox", "--disable-dev-shm-usage");
         FirefoxOptions optionsFirefox = new FirefoxOptions();
-        optionsFirefox.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
+        optionsFirefox.addArguments("--no-sandbox", "--disable-dev-shm-usage");
         return new Object[][] {
                 {new ChromeDriver(optionsChrome)},
                 {new FirefoxDriver(optionsFirefox)},
@@ -41,20 +41,21 @@ public class CheckYandexLogo {
     @Before
     public void startUp() {
         driver = browser;
-        HomePageScooter objPageScooter = new HomePageScooter(driver);
+        PageHomeScooter objPageScooter = new PageHomeScooter(driver);
         // Открытие страницы
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(urlScooter);
         // Нажатие на кнопку кук
         objPageScooter.pressCookieButton();
     }
-
     @Test
-    public void isYandexImageLogoOpensNewTabMainPageYandex(){
-        HomePageScooter objHomePageScooter = new HomePageScooter(driver);
-        // Нажатие на логотип "Яндекс"
-        objHomePageScooter.pressYandexImageInLogo();
-        // Проверка url на корректность
-        Assert.assertThat(objHomePageScooter.getUrl(), containsString("https://dzen.ru"));
+    public void isScooterImageLogoReturnsToMainPage(){
+        PageHomeScooter objHomePageScooter = new PageHomeScooter(driver);
+        // Нажатие на кнопку "Заказать" в шапке страницы
+        objHomePageScooter.pressOrderButton("Верхняя");
+        // Нажатие на "Самокат" в логотипе
+        objHomePageScooter.pressScooterImageInLogo();
+        // Проверка на наличие картинки на главной странице
+        Assert.assertTrue(objHomePageScooter.getBlueprintScooterImage());
     }
     @After
     public void tearDown() {

@@ -1,6 +1,6 @@
-package Tests;
+package tests;
 
-import LocatorsAndMethods.HomePageScooter;
+import methods.PageHomeScooter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,16 +12,19 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+
+import static methods.PageHomeScooter.urlScooter;
+
 //Выпадающий список в разделе «Вопросы о важном». Тебе нужно проверить: когда нажимаешь на стрелочку, открывается соответствующий текст.
 @RunWith(Parameterized.class)
 
-public class CheckFAQ {
+public class TestCheckFAQ {
     private WebDriver driver;
     private final String actualAnswer;
     private final String numberOfAnswerAndQuestion;
     public final WebDriver browser;
 
-    public CheckFAQ(String actualAnswer, String numberOfAnswerAndQuestion, WebDriver browser) {
+    public TestCheckFAQ(String actualAnswer, String numberOfAnswerAndQuestion, WebDriver browser) {
         this.actualAnswer = actualAnswer;
         this.numberOfAnswerAndQuestion = numberOfAnswerAndQuestion;
         this.browser = browser;
@@ -31,9 +34,9 @@ public class CheckFAQ {
     @Parameterized.Parameters
     public static Object[][] getComparingDataAndBrowsers() {
         ChromeOptions optionsChrome = new ChromeOptions();
-        optionsChrome.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
+        optionsChrome.addArguments("--no-sandbox", "--disable-dev-shm-usage");
         FirefoxOptions optionsFirefox = new FirefoxOptions();
-        optionsFirefox.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
+        optionsFirefox.addArguments("--no-sandbox", "--disable-dev-shm-usage");
         return new Object[][] {
                 { "Сутки — 400 рублей. Оплата курьеру — наличными или картой.", "0", new ChromeDriver(optionsChrome)},
                 { "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим.", "1", new ChromeDriver(optionsChrome)},
@@ -56,16 +59,16 @@ public class CheckFAQ {
     @Before
     public void startUp() {
         driver = browser;
-        HomePageScooter objPageScooter = new HomePageScooter(driver);
+        PageHomeScooter objPageScooter = new PageHomeScooter(driver);
         // Открытие страницы
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(urlScooter);
         // Нажатие на кнопку кук
         objPageScooter.pressCookieButton();
     }
 
     @Test
     public void checkFAQList(){
-        HomePageScooter objHomePageScooter = new HomePageScooter(driver);
+        PageHomeScooter objHomePageScooter = new PageHomeScooter(driver);
         // Сравнение текста ответов
         Assert.assertEquals(actualAnswer, objHomePageScooter.checkAnswers(numberOfAnswerAndQuestion));
 

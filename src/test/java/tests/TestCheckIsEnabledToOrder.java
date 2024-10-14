@@ -1,8 +1,8 @@
-package Tests;
+package tests;
 
-import LocatorsAndMethods.AboutRentPage;
-import LocatorsAndMethods.HomePageScooter;
-import LocatorsAndMethods.UserInfoPage;
+import methods.PageAboutRent;
+import methods.PageHomeScooter;
+import methods.PageUserInfo;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,10 +14,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+
+import static methods.PageHomeScooter.urlScooter;
+
 //Заказ самоката. Нужно проверить весь флоу позитивного сценария с двумя наборами данных. Проверить точки входа в сценарий, их две: кнопка «Заказать» вверху страницы и внизу.
 @RunWith(Parameterized.class)
 
-public class CheckIsEnabledToOrder {
+public class TestCheckIsEnabledToOrder {
     private WebDriver driver;
     private final String choiceOrderButton;
     private final String name;
@@ -27,7 +30,7 @@ public class CheckIsEnabledToOrder {
     private final String date;
     public final WebDriver browser;
 
-    public CheckIsEnabledToOrder(String choiceOrderButton, String name, String surname, String address, String phone, String date, WebDriver browser) {
+    public TestCheckIsEnabledToOrder(String choiceOrderButton, String name, String surname, String address, String phone, String date, WebDriver browser) {
         this.choiceOrderButton = choiceOrderButton;
         this.name = name;
         this.surname = surname;
@@ -41,9 +44,9 @@ public class CheckIsEnabledToOrder {
     @Parameterized.Parameters
     public static Object[][] getDataAndBrowsers() {
         ChromeOptions optionsChrome = new ChromeOptions();
-        optionsChrome.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
+        optionsChrome.addArguments("--no-sandbox", "--disable-dev-shm-usage");
         FirefoxOptions optionsFirefox = new FirefoxOptions();
-        optionsFirefox.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
+        optionsFirefox.addArguments("--no-sandbox", "--disable-dev-shm-usage");
 
         return new Object[][] {
                 { "Верхняя", "Иван", "Иванов", "ул. Ивановская д. 5", "89999999999", "1", new ChromeDriver(optionsChrome)},
@@ -55,18 +58,18 @@ public class CheckIsEnabledToOrder {
     @Before
     public void startUp() {
         driver = browser;
-        HomePageScooter objPageScooter = new HomePageScooter(driver);
+        PageHomeScooter objPageScooter = new PageHomeScooter(driver);
         // Открытие страницы
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(urlScooter);
         // Нажатие на кнопку кук
         objPageScooter.pressCookieButton();
     }
 
     @Test
     public void isPossibleToMakeOrder(){
-        HomePageScooter objHomePageScooter = new HomePageScooter(driver);
-        UserInfoPage objUserInfoPage = new UserInfoPage(driver);
-        AboutRentPage objAboutRentPage = new AboutRentPage(driver);
+        PageHomeScooter objHomePageScooter = new PageHomeScooter(driver);
+        PageUserInfo objUserInfoPage = new PageUserInfo(driver);
+        PageAboutRent objAboutRentPage = new PageAboutRent(driver);
         // Нажатие на кнопку "Заказать" в шапке страницы
         objHomePageScooter.pressOrderButton(choiceOrderButton);
         // Заполнение тестовыми данными

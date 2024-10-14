@@ -1,16 +1,13 @@
-package LocatorsAndMethods;
+package methods;
 
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-public class UserInfoPage {
+public class PageUserInfo {
     private WebDriver driver;
     // Время ожидания ошибки
     java.time.Duration waitForError = Duration.ofSeconds(1);
@@ -43,7 +40,7 @@ public class UserInfoPage {
     // Селектор для всех ошибок
     //private By allTextErrors = By.xpath(".//div[starts-with(text(), 'Введите корректн')]");
 
-    public UserInfoPage(WebDriver driver) {
+    public PageUserInfo(WebDriver driver) {
         this.driver = driver;
     }
     // Заполнение полей и передача в них данных

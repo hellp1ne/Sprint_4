@@ -1,7 +1,7 @@
-package Tests;
+package tests;
 
-import LocatorsAndMethods.HomePageScooter;
-import LocatorsAndMethods.NoSuchOrderPage;
+import methods.PageHomeScooter;
+import methods.PageNoSuchOrder;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,14 +13,17 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+
+import static methods.PageHomeScooter.urlScooter;
+
 //Проверить: если ввести неправильный номер заказа, попадёшь на страницу статуса заказа. На ней должно быть написано, что такого заказа нет.
 @RunWith(Parameterized.class)
 
-public class CheckIncorrectNumber {
+public class TestCheckIncorrectNumber {
     private WebDriver driver;
     public final WebDriver browser;
 
-    public CheckIncorrectNumber(WebDriver browser) {
+    public TestCheckIncorrectNumber(WebDriver browser) {
         this.browser = browser;
     }
 
@@ -28,9 +31,9 @@ public class CheckIncorrectNumber {
     @Parameterized.Parameters
     public static Object[][] getBrowsers() {
         ChromeOptions optionsChrome = new ChromeOptions();
-        optionsChrome.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
+        optionsChrome.addArguments("--no-sandbox", "--disable-dev-shm-usage");
         FirefoxOptions optionsFirefox = new FirefoxOptions();
-        optionsFirefox.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
+        optionsFirefox.addArguments("--no-sandbox", "--disable-dev-shm-usage");
         return new Object[][] {
                 {new ChromeDriver(optionsChrome)},
                 {new FirefoxDriver(optionsFirefox)},
@@ -39,17 +42,17 @@ public class CheckIncorrectNumber {
     @Before
     public void startUp() {
         driver = browser;
-        HomePageScooter objPageScooter = new HomePageScooter(driver);
+        PageHomeScooter objPageScooter = new PageHomeScooter(driver);
         // Открытие страницы
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(urlScooter);
         // Нажатие на кнопку кук
         objPageScooter.pressCookieButton();
     }
 
     @Test
     public void tryingToFindIncorrectOrder(){
-        HomePageScooter objHomePageScooter = new HomePageScooter(driver);
-        NoSuchOrderPage objNoSuchOrderPage = new NoSuchOrderPage(driver);
+        PageHomeScooter objHomePageScooter = new PageHomeScooter(driver);
+        PageNoSuchOrder objNoSuchOrderPage = new PageNoSuchOrder(driver);
         // Нажатие на кнопку "Статус заказа"
         objHomePageScooter.pressButtonOrderStatus();
         // Заполнение появившегося поле неверными данными

@@ -1,11 +1,11 @@
-package LocatorsAndMethods;
+package methods;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import java.util.concurrent.TimeUnit;
 
-public class AboutRentPage {
+public class PageAboutRent {
     private WebDriver driver;
     private boolean isButtonDisplayed = false;
     // Поле для ввода даты
@@ -31,7 +31,7 @@ public class AboutRentPage {
     // Кнопка "Посмотреть статус"
     private By buttonCheckStatus = By.xpath(".//button[text()='Посмотреть статус']");
 
-    public AboutRentPage(WebDriver driver) {
+    public PageAboutRent(WebDriver driver) {
         this.driver = driver;
     }
     // Заполнение обязательных полей для валидации формы

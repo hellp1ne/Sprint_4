@@ -1,4 +1,4 @@
-package LocatorsAndMethods;
+package methods;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -6,16 +6,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.junit.Assert;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElementLocated;
-import static org.openqa.selenium.support.ui.ExpectedConditions.urlContains;
-
-public class HomePageScooter {
+public class PageHomeScooter {
+    public static final String urlScooter = "https://qa-scooter.praktikum-services.ru/";
     private WebDriver driver;
     // Время ожидания кнопки
     java.time.Duration waitForButton = Duration.ofSeconds(3);
@@ -44,7 +40,7 @@ public class HomePageScooter {
     // Картинка чертежа самоката
     private By blueprintScooterImage = By.xpath(".//div[@style='opacity: 1; transform: translateY(0px);']/img[@alt='Scooter blueprint']");
     // Конструктор для драйвера
-    public HomePageScooter(WebDriver driver) {
+    public PageHomeScooter(WebDriver driver) {
         this.driver = driver;
     }
     // Нажать на кнопку кук, чтобы пропал поп-ап
