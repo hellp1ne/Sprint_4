@@ -1,4 +1,4 @@
-package methods;
+package pageobject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -99,11 +99,8 @@ public class PageHomeScooter {
     public String getUrl() {
         Object[] windowHandles=driver.getWindowHandles().toArray();
         driver.switchTo().window((String) windowHandles[1]);
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        new WebDriverWait(driver, Duration.ofSeconds(3))
+                .until(ExpectedConditions.urlContains("https://dzen.ru"));
         return driver.getCurrentUrl();
     }
     // Нажатие на картинку "Самокат" в логотипе

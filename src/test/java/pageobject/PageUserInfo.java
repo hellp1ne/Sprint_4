@@ -1,11 +1,10 @@
-package methods;
+package pageobject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 public class PageUserInfo {
     private WebDriver driver;
@@ -71,11 +70,6 @@ public class PageUserInfo {
         driver.findElement(phoneInput).click();
         driver.findElement(phoneInput).sendKeys(phone);
         driver.findElement(buttonNext).click();
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         return new String[]{elementNameTextError.getText(),elementSurnameTextError.getText(),elementAddressTextError.getText(),elementPhoneTextError.getText()};
     }
     //Нажать на кнопку "Далее"
